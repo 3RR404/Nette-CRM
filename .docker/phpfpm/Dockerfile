@@ -32,4 +32,4 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY php.ini "$PHP_INI_DIR/conf.d/app.ini"
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/app
