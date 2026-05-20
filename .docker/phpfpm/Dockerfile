@@ -8,6 +8,13 @@ RUN apk add --no-cache \
     oniguruma-dev \
     icu-dev \
     mysql-client \
+    unzip \
+    p7zip \
+    curl \
+    git \
+    nodejs \
+    npm \
+    dcron \
     $PHPIZE_DEPS
 
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
