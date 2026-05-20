@@ -20,6 +20,8 @@ RUN docker-php-ext-install \
     gd \
     opcache
 
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 COPY php.ini "$PHP_INI_DIR/conf.d/app.ini"
 
 WORKDIR /var/www/html
