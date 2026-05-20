@@ -1,5 +1,10 @@
 FROM php:8.4-fpm-alpine
 
+COPY --chown=www-data:www-data ./ /app
+
+COPY ./.docker/phpfpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./.docker/phpfpm/docker-fpm-entrypoint /usr/local/bin/
+
 RUN apk add --no-cache \
     freetype-dev \
     libjpeg-turbo-dev \
@@ -28,8 +33,12 @@ RUN docker-php-ext-install \
     gd \
     opcache
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY php.ini "$PHP_INI_DIR/conf.d/app.ini"
+COPY ./.docker/phpfpm/php.ini "$PHP_INI_DIR/conf.d/app.ini"
 
-WORKDIR /var/www/html/app
+ENTRYPOINT ["docker-fpm-entrypoint"]
+
+WORKDIR /app
+
+CMD ["php-fpm"]

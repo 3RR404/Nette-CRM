@@ -30,9 +30,9 @@ final class UserAuthenticator implements Authenticator
             throw new AuthenticationException('Account is disabled.', self::INVALID_CREDENTIAL);
         }
 
-//        if (!$this->passwords->verify($password, $row->password_hash)) {
-//            throw new AuthenticationException('Invalid credentials.', self::INVALID_CREDENTIAL);
-//        }
+        if (!$this->passwords->verify($password, $row->password_hash)) {
+            throw new AuthenticationException('Invalid credentials.', self::INVALID_CREDENTIAL);
+        }
 
         $this->userManager->updateLastLogin($row->id);
 

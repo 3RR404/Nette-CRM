@@ -3,13 +3,13 @@ services:
   nginx:
     platform: linux/amd64
     build:
-      context: .docker/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./.docker/nginx/Dockerfile
     container_name: crm_nginx
     ports:
       - "8184:80"
     volumes:
-      - .:/var/www/html:ro
+      - ./:/app:delegated
     depends_on:
       - php-fpm
     networks:
@@ -19,11 +19,11 @@ services:
   php-fpm:
     platform: linux/amd64
     build:
-      context: .docker/phpfpm
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./.docker/phpfpm/Dockerfile
     container_name: crm_phpfpm
     volumes:
-      - .:/var/www/html
+      - ./:/app:delegated
       - php-logs:/var/log/php
     depends_on:
       mysql:

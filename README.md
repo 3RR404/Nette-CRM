@@ -33,7 +33,7 @@ docker compose up -d
 cp app/config/local.neon.docker app/config/local.neon
 
 # Install PHP dependencies
-docker compose exec php-fpm composer install
+docker compose exec crm_phpfpm composer install
 ```
 
 Open **http://localhost:8184** in your browser.
