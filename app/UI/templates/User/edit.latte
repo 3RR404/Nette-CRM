@@ -1,0 +1,9 @@
+{layout '../@layout.latte'}
+{block pageTitle}Edit User{/block}
+{block content}
+<div class="mb-4">
+	<a href="{link default}" class="text-muted small"><i class="bi bi-arrow-left"></i> Users</a>
+	<h4 class="fw-bold mb-0 mt-1">Edit: {$editedUser->first_name} {$editedUser->last_name}</h4>
+</div>
+<div class="row"><div class="col-lg-6"><div class="card"><div class="card-body">{control userForm}</div></div></div></div>
+{/block}

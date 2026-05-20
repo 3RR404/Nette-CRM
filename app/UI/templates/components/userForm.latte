@@ -1,0 +1,16 @@
+<form n:name="form">
+	<div class="row g-3">
+		<div class="col-md-6"><label n:name="first_name" class="form-label">First Name *</label><input n:name="first_name" class="form-control"></div>
+		<div class="col-md-6"><label n:name="last_name" class="form-label">Last Name *</label><input n:name="last_name" class="form-control"></div>
+		<div class="col-md-8"><label n:name="email" class="form-label">Email *</label><input n:name="email" class="form-control"></div>
+		<div class="col-md-4"><label n:name="role" class="form-label">Role *</label><select n:name="role" class="form-select"></select></div>
+		<div class="col-md-6"><label n:name="phone" class="form-label">Phone</label><input n:name="phone" class="form-control"></div>
+		<div class="col-md-6 d-flex align-items-end"><label class="d-flex align-items-center gap-2"><input n:name="active" class="form-check-input"> Active</label></div>
+		<div class="col-md-6"><label n:name="password" class="form-label">Password</label><input n:name="password" class="form-control" type="password"></div>
+		<div class="col-md-6"><label n:name="password_confirm" class="form-label">Confirm Password</label><input n:name="password_confirm" class="form-control" type="password"></div>
+		<div class="col-12">
+			<button n:name="send" class="btn btn-primary px-4">Save User</button>
+			<a href="{link User:default}" class="btn btn-outline-secondary ms-2">Cancel</a>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,12 @@
+{layout '../@layout.latte'}
+{block pageTitle}New Deal{/block}
+
+{block content}
+<div class="mb-4">
+	<a href="{link default}" class="text-muted small"><i class="bi bi-arrow-left"></i> Deals</a>
+	<h4 class="fw-bold mb-0 mt-1">New Deal</h4>
+</div>
+<div class="row"><div class="col-lg-8">
+	<div class="card"><div class="card-body">{control dealForm}</div></div>
+</div></div>
+{/block}

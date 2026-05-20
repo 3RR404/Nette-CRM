@@ -1,0 +1,12 @@
+{layout '../@layout.latte'}
+{block pageTitle}Edit Deal{/block}
+
+{block content}
+<div class="mb-4">
+	<a href="{link detail, $deal->id}" class="text-muted small"><i class="bi bi-arrow-left"></i> Back to deal</a>
+	<h4 class="fw-bold mb-0 mt-1">Edit Deal</h4>
+</div>
+<div class="row"><div class="col-lg-8">
+	<div class="card"><div class="card-body">{control dealForm}</div></div>
+</div></div>
+{/block}

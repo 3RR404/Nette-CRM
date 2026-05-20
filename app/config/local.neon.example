@@ -1,0 +1,11 @@
+database:
+    dsn: 'mysql:host=127.0.0.1;dbname=nette_crm;charset=utf8mb4'
+    user: your_db_user
+    password: your_db_password
+    options:
+        lazy: true
+
+# For Docker development use:
+#   dsn: 'mysql:host=mysql;dbname=nette_crm;charset=utf8mb4'
+#   user: crm
+#   password: secret

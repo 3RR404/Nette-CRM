@@ -1,0 +1,22 @@
+<form n:name="form">
+	<div class="row g-3">
+		<div class="col-12">
+			<label n:name="name" class="form-label">Company Name *</label>
+			<input n:name="name" class="form-control">
+			{inputError name}<div class="text-danger small">{/inputError}
+		</div>
+		<div class="col-md-6"><label n:name="email" class="form-label">Email</label><input n:name="email" class="form-control"></div>
+		<div class="col-md-6"><label n:name="phone" class="form-label">Phone</label><input n:name="phone" class="form-control"></div>
+		<div class="col-md-6"><label n:name="website" class="form-label">Website</label><input n:name="website" class="form-control"></div>
+		<div class="col-md-6"><label n:name="industry" class="form-label">Industry</label><input n:name="industry" class="form-control"></div>
+		<div class="col-md-6"><label n:name="employees" class="form-label">Employees</label><input n:name="employees" class="form-control"></div>
+		<div class="col-md-6"><label n:name="owner_id" class="form-label">Owner</label><select n:name="owner_id" class="form-select"></select></div>
+		<div class="col-md-6"><label n:name="city" class="form-label">City</label><input n:name="city" class="form-control"></div>
+		<div class="col-md-6"><label n:name="country" class="form-label">Country</label><input n:name="country" class="form-control"></div>
+		<div class="col-12"><label n:name="description" class="form-label">Description</label><textarea n:name="description" class="form-control"></textarea></div>
+		<div class="col-12">
+			<button n:name="send" class="btn btn-primary px-4">Save Company</button>
+			<a href="{link Company:default}" class="btn btn-outline-secondary ms-2">Cancel</a>
+		</div>
+	</div>
+</form>

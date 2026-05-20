@@ -1,0 +1,19 @@
+<form n:name="form">
+	<div class="row g-3">
+		<div class="col-12">
+			<label n:name="title" class="form-label">Title *</label>
+			<input n:name="title" class="form-control">
+		</div>
+		<div class="col-md-4"><label n:name="type" class="form-label">Type</label><select n:name="type" class="form-select"></select></div>
+		<div class="col-md-4"><label n:name="priority" class="form-label">Priority</label><select n:name="priority" class="form-select"></select></div>
+		<div class="col-md-4"><label n:name="status" class="form-label">Status</label><select n:name="status" class="form-select"></select></div>
+		<div class="col-md-6"><label n:name="assigned_to" class="form-label">Assign To</label><select n:name="assigned_to" class="form-select"></select></div>
+		<div class="col-md-3"><label n:name="due_date" class="form-label">Due Date</label><input n:name="due_date" class="form-control"></div>
+		<div class="col-md-3"><label n:name="due_time" class="form-label">Due Time</label><input n:name="due_time" class="form-control"></div>
+		<div class="col-12"><label n:name="description" class="form-label">Description</label><textarea n:name="description" class="form-control"></textarea></div>
+		<div class="col-12">
+			<button n:name="send" class="btn btn-primary px-4">Save Task</button>
+			<a href="{link Task:default}" class="btn btn-outline-secondary ms-2">Cancel</a>
+		</div>
+	</div>
+</form>

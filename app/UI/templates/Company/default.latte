@@ -1,0 +1,65 @@
+{layout '../@layout.latte'}
+{block pageTitle}Companies{/block}
+
+{block content}
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<h4 class="fw-bold mb-0">Companies</h4>
+	<a href="{link create}" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Company</a>
+</div>
+
+<div class="card mb-3">
+	<div class="card-body py-2">
+		<form method="get" class="row g-2 align-items-center">
+			<div class="col-md-6">
+				<input type="text" name="q" value="{$q}" class="form-control" placeholder="Search companies...">
+			</div>
+			<div class="col-auto">
+				<button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+				<a href="{link default}" class="btn btn-outline-secondary ms-1">Reset</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="card">
+	<div class="table-responsive">
+		<table class="table table-hover align-middle mb-0">
+			<thead class="table-light">
+				<tr>
+					<th>Company</th>
+					<th>Industry</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>City</th>
+					<th>Employees</th>
+					<th>Created</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach $companies as $company}
+				<tr>
+					<td><a href="{link detail, $company->id}" class="fw-semibold text-decoration-none text-dark">{$company->name}</a>
+					{if $company->website}<div><a href="{$company->website}" target="_blank" class="small text-muted">{$company->website}</a></div>{/if}
+					</td>
+					<td class="small">{$company->industry}</td>
+					<td><a href="mailto:{$company->email}" class="small">{$company->email}</a></td>
+					<td class="small">{$company->phone}</td>
+					<td class="small">{$company->city}{if $company->city && $company->country}, {/if}{$company->country}</td>
+					<td class="small">{$company->employees}</td>
+					<td class="small text-muted">{$company->created_at|date:'d.m.Y'}</td>
+					<td>
+						<div class="d-flex gap-1">
+							<a href="{link edit, $company->id}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+							<a href="{link delete, $company->id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete?')"><i class="bi bi-trash"></i></a>
+						</div>
+					</td>
+				</tr>
+				{else}
+				<tr><td colspan="8" class="text-center text-muted py-5">No companies found.</td></tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+</div>
+{/block}

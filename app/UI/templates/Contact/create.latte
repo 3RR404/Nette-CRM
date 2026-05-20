@@ -1,0 +1,21 @@
+{layout '../@layout.latte'}
+{block pageTitle}New Contact{/block}
+
+{block content}
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<div>
+		<a href="{link default}" class="text-muted small"><i class="bi bi-arrow-left"></i> Contacts</a>
+		<h4 class="fw-bold mb-0 mt-1">New Contact</h4>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-8">
+		<div class="card">
+			<div class="card-body">
+				{control contactForm}
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

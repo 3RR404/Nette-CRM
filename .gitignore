@@ -1,0 +1,13 @@
+/vendor/
+/temp/cache/
+/temp/sessions/
+/log/*.log
+/log/*.html
+/app/config/local.neon
+!/app/config/local.neon.example
+!/app/config/local.neon.docker
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/

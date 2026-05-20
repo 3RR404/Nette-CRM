@@ -1,0 +1,95 @@
+{layout '../@layout.latte'}
+{block pageTitle}Sales Pipeline{/block}
+
+{block content}
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<h4 class="fw-bold mb-0">Sales Pipeline</h4>
+	<div class="d-flex gap-2">
+		<a href="{link default}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-list-ul"></i> List View</a>
+		<a href="{link create}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle"></i> Add Deal</a>
+	</div>
+</div>
+
+{* Pipeline summary bar *}
+<div class="row g-2 mb-4">
+	{foreach ['new','qualified','proposal','negotiation'] as $stage}
+	{var $s = $stats[$stage] ?? ['count'=>0,'value'=>0]}
+	<div class="col">
+		<div class="stat-card text-center">
+			<div class="small text-muted">{ucfirst($stage)}</div>
+			<div class="fw-bold">{$s['count']}</div>
+			<div class="small text-success">${number_format($s['value'], 0)}</div>
+		</div>
+	</div>
+	{/foreach}
+	<div class="col">
+		<div class="stat-card text-center bg-success bg-opacity-10">
+			<div class="small text-muted">Won</div>
+			<div class="fw-bold text-success">{$stats['won']['count'] ?? 0}</div>
+			<div class="small text-success">${number_format($stats['won']['value'] ?? 0, 0)}</div>
+		</div>
+	</div>
+	<div class="col">
+		<div class="stat-card text-center bg-danger bg-opacity-10">
+			<div class="small text-muted">Lost</div>
+			<div class="fw-bold text-danger">{$stats['lost']['count'] ?? 0}</div>
+			<div class="small text-muted">${number_format($stats['lost']['value'] ?? 0, 0)}</div>
+		</div>
+	</div>
+</div>
+
+{* Kanban board *}
+<div class="d-flex gap-3 overflow-auto pb-3">
+	{foreach ['new','qualified','proposal','negotiation'] as $stage}
+	<div class="pipeline-col flex-shrink-0" style="width:260px" data-stage="{$stage}">
+		<div class="pipeline-col-header d-flex justify-content-between align-items-center mb-2">
+			<span class="badge badge-stage-{$stage} text-white px-2 py-1">{ucfirst($stage)}</span>
+			<small class="text-muted">{count($pipeline[$stage])} deal{if count($pipeline[$stage]) !== 1}s{/if}</small>
+		</div>
+		<div class="pipeline-drop-zone" data-stage="{$stage}">
+			{foreach $pipeline[$stage] as $deal}
+			<div class="pipeline-card" data-id="{$deal->id}">
+				<div class="d-flex justify-content-between align-items-start mb-1">
+					<a href="{link detail, $deal->id}" class="fw-semibold small text-decoration-none text-dark">{$deal->title}</a>
+					<a href="{link edit, $deal->id}" class="text-muted ms-1"><i class="bi bi-pencil" style="font-size:.7rem"></i></a>
+				</div>
+				{if $deal->value}
+				<div class="text-success fw-semibold small">${number_format($deal->value, 0)} {$deal->currency}</div>
+				{/if}
+				{if $deal->expected_close_date}
+				<div class="text-muted" style="font-size:.72rem"><i class="bi bi-calendar2"></i> {$deal->expected_close_date|date:'d.m.Y'}</div>
+				{/if}
+				<div class="mt-2 d-flex gap-1 flex-wrap">
+					{foreach array_filter(['new','qualified','proposal','negotiation','won','lost'], fn($s) => $s !== $stage) as $targetStage}
+					<button class="btn btn-outline-secondary btn-sm py-0 px-1 move-btn"
+					        style="font-size:.65rem"
+					        data-id="{$deal->id}"
+					        data-stage="{$targetStage}"
+					        title="Move to {ucfirst($targetStage)}">
+						→ {ucfirst($targetStage)}
+					</button>
+					{/foreach}
+				</div>
+			</div>
+			{else}
+			<div class="text-muted text-center py-4 small">No deals</div>
+			{/foreach}
+		</div>
+	</div>
+	{/foreach}
+</div>
+{/block}
+
+{block scripts}
+<script>
+document.querySelectorAll('.move-btn').forEach(btn => {
+	btn.addEventListener('click', function() {
+		const id    = this.dataset.id;
+		const stage = this.dataset.stage;
+		fetch(`{link handleMoveStage!}`.replace('__id__', id) + `&id=${id}&stage=${stage}`, {method:'GET'})
+			.then(r => r.json())
+			.then(() => location.reload());
+	});
+});
+</script>
+{/block}

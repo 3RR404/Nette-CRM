@@ -1,0 +1,107 @@
+{layout '../@layout.latte'}
+{block pageTitle}Contacts{/block}
+
+{block content}
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<h4 class="fw-bold mb-0">Contacts</h4>
+	<a href="{link create}" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add Contact</a>
+</div>
+
+<div class="card mb-3">
+	<div class="card-body py-2">
+		<form method="get" class="row g-2 align-items-center">
+			<div class="col-md-5">
+				<input type="text" name="q" value="{$q}" class="form-control" placeholder="Search contacts...">
+			</div>
+			<div class="col-md-3">
+				<select name="status" class="form-select">
+					<option value="">All statuses</option>
+					{foreach ['lead','prospect','customer','churned','other'] as $s}
+					<option value="{$s}" {if $status === $s}selected{/if}>{ucfirst($s)}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="col-auto">
+				<button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i> Search</button>
+				<a href="{link default}" class="btn btn-outline-secondary ms-1">Reset</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="card">
+	<div class="table-responsive">
+		<table class="table table-hover align-middle mb-0">
+			<thead class="table-light">
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Phone</th>
+					<th>Company</th>
+					<th>Status</th>
+					<th>Owner</th>
+					<th>Created</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach $contacts as $contact}
+				<tr>
+					<td>
+						<a href="{link detail, $contact->id}" class="fw-semibold text-decoration-none text-dark">
+							{$contact->first_name} {$contact->last_name}
+						</a>
+						{if $contact->job_title}<div class="text-muted small">{$contact->job_title}</div>{/if}
+					</td>
+					<td><a href="mailto:{$contact->email}" class="small">{$contact->email}</a></td>
+					<td class="small">{$contact->phone}</td>
+					<td class="small">
+						{if $contact->company_id}
+						<a href="{link Company:detail, $contact->company_id}">{$contact->ref('companies', 'company_id')->name ?? ''}</a>
+						{/if}
+					</td>
+					<td>
+						<span class="badge bg-{$contact->status === 'customer' ? 'success' : ($contact->status === 'lead' ? 'secondary' : 'primary')}">
+							{ucfirst($contact->status)}
+						</span>
+					</td>
+					<td class="small text-muted">{$contact->owner_id}</td>
+					<td class="small text-muted">{$contact->created_at|date:'d.m.Y'}</td>
+					<td>
+						<div class="d-flex gap-1">
+							<a href="{link edit, $contact->id}" class="btn btn-sm btn-outline-secondary" title="Edit"><i class="bi bi-pencil"></i></a>
+							<a href="{link delete, $contact->id}" class="btn btn-sm btn-outline-danger" title="Delete"
+							   onclick="return confirm('Delete this contact?')"><i class="bi bi-trash"></i></a>
+						</div>
+					</td>
+				</tr>
+				{else}
+				<tr><td colspan="8" class="text-center text-muted py-5">No contacts found.</td></tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+	{if $paginator->pageCount > 1}
+	<div class="card-footer d-flex justify-content-between align-items-center">
+		<small class="text-muted">
+			Showing {$paginator->offset + 1}–{min($paginator->offset + $paginator->length, $paginator->itemCount)} of {$paginator->itemCount}
+		</small>
+		<nav>
+			<ul class="pagination pagination-sm mb-0">
+				{if !$paginator->isFirst()}
+				<li class="page-item"><a class="page-link" href="{link default, q => $q, status => $status, page => $paginator->page - 1}">«</a></li>
+				{/if}
+				{foreach range(max(1, $paginator->page-2), min($paginator->pageCount, $paginator->page+2)) as $p}
+				<li class="page-item{if $p == $paginator->page} active{/if}">
+					<a class="page-link" href="{link default, q => $q, status => $status, page => $p}">{$p}</a>
+				</li>
+				{/foreach}
+				{if !$paginator->isLast()}
+				<li class="page-item"><a class="page-link" href="{link default, q => $q, status => $status, page => $paginator->page + 1}">»</a></li>
+				{/if}
+			</ul>
+		</nav>
+	</div>
+	{/if}
+</div>
+{/block}

@@ -1,0 +1,42 @@
+{layout '../@layout.latte'}
+{block pageTitle}Users{/block}
+
+{block content}
+<div class="d-flex justify-content-between align-items-center mb-4">
+	<h4 class="fw-bold mb-0">Users</h4>
+	<a href="{link create}" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add User</a>
+</div>
+
+<div class="card">
+	<div class="table-responsive">
+		<table class="table table-hover align-middle mb-0">
+			<thead class="table-light">
+				<tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last Login</th><th></th></tr>
+			</thead>
+			<tbody>
+				{foreach $users as $u}
+				<tr>
+					<td class="fw-semibold">{$u->first_name} {$u->last_name}</td>
+					<td class="small">{$u->email}</td>
+					<td><span class="badge bg-{$u->role === 'admin' ? 'danger' : ($u->role === 'manager' ? 'warning text-dark' : 'secondary')}">{ucfirst($u->role)}</span></td>
+					<td>
+						<span class="badge bg-{$u->active ? 'success' : 'secondary'}">{$u->active ? 'Active' : 'Inactive'}</span>
+					</td>
+					<td class="small text-muted">{if $u->last_login_at}{$u->last_login_at|date:'d.m.Y H:i'}{else}Never{/if}</td>
+					<td>
+						<div class="d-flex gap-1">
+							<a href="{link edit, $u->id}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+							<a href="{link toggle, $u->id}" class="btn btn-sm btn-outline-{$u->active ? 'warning' : 'success'}"
+							   title="{$u->active ? 'Deactivate' : 'Activate'}">
+								<i class="bi bi-{$u->active ? 'pause' : 'play'}"></i>
+							</a>
+							<a href="{link delete, $u->id}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete user?')"><i class="bi bi-trash"></i></a>
+						</div>
+					</td>
+				</tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
+</div>
+{/block}

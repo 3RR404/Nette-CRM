@@ -1,0 +1,97 @@
+{layout '../@layout.latte'}
+{block pageTitle}Reports{/block}
+
+{block content}
+<h4 class="fw-bold mb-4">Reports & Analytics</h4>
+
+<div class="row g-3 mb-4">
+	<div class="col-md-3">
+		<div class="stat-card text-center">
+			<div class="icon bg-primary bg-opacity-10 text-primary mx-auto mb-2"><i class="bi bi-people"></i></div>
+			<div class="fs-3 fw-bold">{$totalContacts}</div>
+			<div class="text-muted small">Total Contacts</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="stat-card text-center">
+			<div class="icon bg-warning bg-opacity-10 text-warning mx-auto mb-2"><i class="bi bi-building"></i></div>
+			<div class="fs-3 fw-bold">{$totalCompanies}</div>
+			<div class="text-muted small">Companies</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="stat-card text-center">
+			<div class="icon bg-success bg-opacity-10 text-success mx-auto mb-2"><i class="bi bi-cash-stack"></i></div>
+			<div class="fs-3 fw-bold">${number_format($pipelineValue, 0)}</div>
+			<div class="text-muted small">Active Pipeline</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="stat-card text-center">
+			<div class="icon bg-info bg-opacity-10 text-info mx-auto mb-2"><i class="bi bi-trophy"></i></div>
+			<div class="fs-3 fw-bold">${number_format($dealStats['won']['value'] ?? 0, 0)}</div>
+			<div class="text-muted small">Won Revenue</div>
+		</div>
+	</div>
+</div>
+
+<div class="row g-3">
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header fw-semibold">Deals by Stage</div>
+			<div class="card-body">
+				{foreach ['new','qualified','proposal','negotiation','won','lost'] as $stage}
+				{var $s = $dealStats[$stage] ?? ['count'=>0,'value'=>0]}
+				<div class="mb-3">
+					<div class="d-flex justify-content-between mb-1">
+						<span class="small fw-semibold">
+							<span class="badge badge-stage-{$stage} text-white">{ucfirst($stage)}</span>
+						</span>
+						<span class="small text-muted">{$s['count']} deals · ${number_format($s['value'],0)}</span>
+					</div>
+					{var $maxVal = max(array_column($dealStats, 'value') ?: [1])}
+					<div class="progress" style="height:6px">
+						<div class="progress-bar badge-stage-{$stage}" style="width:{$maxVal > 0 ? round($s['value']/$maxVal*100) : 0}%"></div>
+					</div>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header fw-semibold">Contacts by Status</div>
+			<div class="card-body">
+				{foreach ['lead','prospect','customer','churned','other'] as $status}
+				{var $count = $byStatus[$status] ?? 0}
+				<div class="mb-3">
+					<div class="d-flex justify-content-between mb-1">
+						<span class="small fw-semibold">{ucfirst($status)}</span>
+						<span class="small text-muted">{$count}</span>
+					</div>
+					<div class="progress" style="height:6px">
+						<div class="progress-bar bg-primary"
+						     style="width:{$totalContacts > 0 ? round($count/$totalContacts*100) : 0}%"></div>
+					</div>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header fw-semibold">Users by Role</div>
+			<div class="list-group list-group-flush">
+				{foreach $usersByRole as $role => $count}
+				<div class="list-group-item d-flex justify-content-between">
+					<span class="badge bg-{$role === 'admin' ? 'danger' : ($role === 'manager' ? 'warning text-dark' : 'secondary')}">{ucfirst($role)}</span>
+					<span class="fw-semibold">{$count}</span>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+</div>
+{/block}

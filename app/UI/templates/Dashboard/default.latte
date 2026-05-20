@@ -1,0 +1,191 @@
+{layout '../@layout.latte'}
+
+{block pageTitle}Dashboard{/block}
+
+{block content}
+<h4 class="fw-bold mb-4">Dashboard</h4>
+
+{* Stats row *}
+<div class="row g-3 mb-4">
+	<div class="col-sm-6 col-xl-3">
+		<div class="stat-card">
+			<div class="d-flex align-items-center justify-content-between">
+				<div>
+					<div class="text-muted small">Total Contacts</div>
+					<div class="fs-3 fw-bold">{$stats['contacts']}</div>
+				</div>
+				<div class="icon bg-primary bg-opacity-10 text-primary"><i class="bi bi-people-fill"></i></div>
+			</div>
+			<div class="mt-2"><a href="{link Contact:}" class="small text-primary">View all →</a></div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-xl-3">
+		<div class="stat-card">
+			<div class="d-flex align-items-center justify-content-between">
+				<div>
+					<div class="text-muted small">Companies</div>
+					<div class="fs-3 fw-bold">{$stats['companies']}</div>
+				</div>
+				<div class="icon bg-warning bg-opacity-10 text-warning"><i class="bi bi-building"></i></div>
+			</div>
+			<div class="mt-2"><a href="{link Company:}" class="small text-primary">View all →</a></div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-xl-3">
+		<div class="stat-card">
+			<div class="d-flex align-items-center justify-content-between">
+				<div>
+					<div class="text-muted small">Pipeline Value</div>
+					<div class="fs-3 fw-bold">${number_format($stats['pipeline'], 0)}</div>
+				</div>
+				<div class="icon bg-success bg-opacity-10 text-success"><i class="bi bi-cash-stack"></i></div>
+			</div>
+			<div class="mt-2"><a href="{link Deal:pipeline}" class="small text-primary">View pipeline →</a></div>
+		</div>
+	</div>
+	<div class="col-sm-6 col-xl-3">
+		<div class="stat-card">
+			<div class="d-flex align-items-center justify-content-between">
+				<div>
+					<div class="text-muted small">Open Tasks</div>
+					<div class="fs-3 fw-bold">{$stats['openTasks']}</div>
+				</div>
+				<div class="icon bg-danger bg-opacity-10 text-danger"><i class="bi bi-check2-square"></i></div>
+			</div>
+			<div class="mt-2"><a href="{link Task:}" class="small text-primary">View tasks →</a></div>
+		</div>
+	</div>
+</div>
+
+<div class="row g-3">
+	{* Pipeline overview *}
+	<div class="col-lg-7">
+		<div class="card h-100">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<span class="fw-semibold">Sales Pipeline</span>
+				<a href="{link Deal:pipeline}" class="btn btn-sm btn-outline-primary">View Pipeline</a>
+			</div>
+			<div class="card-body p-0">
+				<div class="table-responsive">
+					<table class="table table-sm table-hover mb-0">
+						<thead class="table-light">
+							<tr>
+								<th>Stage</th>
+								<th class="text-end">Deals</th>
+								<th class="text-end">Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach ['new','qualified','proposal','negotiation'] as $stage}
+							{var $s = $dealStats[$stage] ?? ['count'=>0,'value'=>0]}
+							<tr>
+								<td>
+									<span class="badge badge-stage-{$stage} text-white">{ucfirst($stage)}</span>
+								</td>
+								<td class="text-end">{$s['count']}</td>
+								<td class="text-end">${number_format($s['value'], 0)}</td>
+							</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{* Tasks today *}
+	<div class="col-lg-5">
+		<div class="card h-100">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<span class="fw-semibold">Today's Tasks</span>
+				<a href="{link Task:default, filter => 'today'}" class="btn btn-sm btn-outline-primary">All Tasks</a>
+			</div>
+			<div class="list-group list-group-flush">
+				{if $todayTasks->count('*') === 0}
+				<div class="list-group-item text-muted text-center py-4">No tasks today 🎉</div>
+				{/if}
+				{foreach $todayTasks as $task}
+				<div class="list-group-item d-flex align-items-center gap-2">
+					<a href="{link Task:complete, $task->id}" class="btn btn-sm btn-outline-success p-1 lh-1" title="Complete">
+						<i class="bi bi-check-lg"></i>
+					</a>
+					<div class="flex-grow-1">
+						<div class="small fw-semibold">{$task->title}</div>
+						{if $task->due_time}<div class="text-muted" style="font-size:.72rem">{$task->due_time}</div>{/if}
+					</div>
+					<span class="badge bg-secondary">{ucfirst($task->type)}</span>
+				</div>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+
+	{* Recent contacts *}
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<span class="fw-semibold">Recent Contacts</span>
+				<a href="{link Contact:}" class="btn btn-sm btn-outline-primary">All Contacts</a>
+			</div>
+			<div class="list-group list-group-flush">
+				{foreach $recentContacts as $contact}
+				<a href="{link Contact:detail, $contact->id}" class="list-group-item list-group-item-action d-flex align-items-center gap-2">
+					<div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width:34px;height:34px;font-size:.8rem;flex-shrink:0">
+						{$contact->first_name[0]}{$contact->last_name[0]}
+					</div>
+					<div class="flex-grow-1">
+						<div class="small fw-semibold">{$contact->first_name} {$contact->last_name}</div>
+						<div class="text-muted" style="font-size:.75rem">{$contact->email}</div>
+					</div>
+					<span class="badge bg-{$contact->status === 'customer' ? 'success' : ($contact->status === 'lead' ? 'secondary' : 'primary')} bg-opacity-75">{ucfirst($contact->status)}</span>
+				</a>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+
+	{* Recent deals *}
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<span class="fw-semibold">Recent Deals</span>
+				<a href="{link Deal:}" class="btn btn-sm btn-outline-primary">All Deals</a>
+			</div>
+			<div class="list-group list-group-flush">
+				{foreach $recentDeals as $deal}
+				<a href="{link Deal:detail, $deal->id}" class="list-group-item list-group-item-action d-flex align-items-center gap-2">
+					<div class="flex-grow-1">
+						<div class="small fw-semibold">{$deal->title}</div>
+						{if $deal->value}<div class="text-muted" style="font-size:.75rem">${number_format($deal->value, 0)} {$deal->currency}</div>{/if}
+					</div>
+					<span class="badge badge-stage-{$deal->stage} text-white">{ucfirst($deal->stage)}</span>
+				</a>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+
+	{* Overdue tasks warning *}
+	{if $overdueTasks->count('*') > 0}
+	<div class="col-12">
+		<div class="card border-danger">
+			<div class="card-header bg-danger bg-opacity-10 text-danger fw-semibold">
+				<i class="bi bi-exclamation-triangle-fill"></i> Overdue Tasks ({$overdueTasks->count('*')})
+			</div>
+			<div class="list-group list-group-flush">
+				{foreach $overdueTasks->limit(5) as $task}
+				<a href="{link Task:edit, $task->id}" class="list-group-item list-group-item-action d-flex align-items-center gap-2">
+					<i class="bi bi-clock text-danger"></i>
+					<div class="flex-grow-1">
+						<span class="small fw-semibold">{$task->title}</span>
+						<span class="text-muted small ms-2">due {$task->due_date}</span>
+					</div>
+					<a href="{link Task:complete, $task->id}" class="btn btn-sm btn-outline-success">Complete</a>
+				</a>
+				{/foreach}
+			</div>
+		</div>
+	</div>
+	{/if}
+</div>
+{/block}

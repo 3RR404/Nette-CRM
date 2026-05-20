@@ -1,0 +1,70 @@
+services:
+
+  nginx:
+    platform: linux/amd64
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    container_name: crm_nginx
+    ports:
+      - "8184:80"
+    volumes:
+      - .:/var/www/html:ro
+    depends_on:
+      - php-fpm
+    networks:
+      - crm-network
+    restart: unless-stopped
+
+  php-fpm:
+    platform: linux/amd64
+    build:
+      context: .docker/phpfpm
+      dockerfile: Dockerfile
+    container_name: crm_phpfpm
+    volumes:
+      - .:/var/www/html
+      - php-logs:/var/log/php
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - crm-network
+    environment:
+      APP_ENV: development
+    restart: unless-stopped
+
+  mysql:
+    platform: linux/amd64
+    image: mysql:8.0
+    container_name: crm_mysql
+    ports:
+      - "3377:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nette_crm
+      MYSQL_USER: crm
+      MYSQL_PASSWORD: secret
+    networks:
+      - crm-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+networks:
+  crm-network:
+    driver: bridge
+    name: crm-network
+
+volumes:
+  mysql-data:
+    driver: local
+  php-logs:
+    driver: local

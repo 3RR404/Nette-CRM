@@ -1,0 +1,24 @@
+application:
+	errorPresenter: Error:Error
+	mapping:
+		*: App\UI\Presenters\*Presenter
+
+session:
+	expiration: 14 days
+
+security:
+	users: App\Model\User\UserAuthenticator
+
+services:
+	- App\Core\RouterFactory
+	router: @App\Core\RouterFactory::createRouter
+
+	- App\Model\User\UserManager
+	- App\Model\User\UserAuthenticator
+	- App\Model\Contact\ContactManager
+	- App\Model\Company\CompanyManager
+	- App\Model\Deal\DealManager
+	- App\Model\Task\TaskManager
+	- App\Model\Note\NoteManager
+	- App\Model\Tag\TagManager
+	- App\Model\Activity\ActivityLogger

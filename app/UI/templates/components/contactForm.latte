@@ -1,0 +1,62 @@
+<form n:name="form">
+	<div class="row g-3">
+		<div class="col-md-6">
+			<label n:name="first_name" class="form-label">First Name *</label>
+			<input n:name="first_name" class="form-control">
+			{inputError first_name}<div class="text-danger small">{/inputError}
+		</div>
+		<div class="col-md-6">
+			<label n:name="last_name" class="form-label">Last Name *</label>
+			<input n:name="last_name" class="form-control">
+			{inputError last_name}<div class="text-danger small">{/inputError}
+		</div>
+		<div class="col-md-6">
+			<label n:name="email" class="form-label">Email</label>
+			<input n:name="email" class="form-control">
+		</div>
+		<div class="col-md-3">
+			<label n:name="phone" class="form-label">Phone</label>
+			<input n:name="phone" class="form-control">
+		</div>
+		<div class="col-md-3">
+			<label n:name="mobile" class="form-label">Mobile</label>
+			<input n:name="mobile" class="form-control">
+		</div>
+		<div class="col-md-6">
+			<label n:name="job_title" class="form-label">Job Title</label>
+			<input n:name="job_title" class="form-control">
+		</div>
+		<div class="col-md-6">
+			<label n:name="company_id" class="form-label">Company</label>
+			<select n:name="company_id" class="form-select"></select>
+		</div>
+		<div class="col-md-4">
+			<label n:name="status" class="form-label">Status *</label>
+			<select n:name="status" class="form-select"></select>
+		</div>
+		<div class="col-md-4">
+			<label n:name="source" class="form-label">Source</label>
+			<select n:name="source" class="form-select"></select>
+		</div>
+		<div class="col-md-4">
+			<label n:name="owner_id" class="form-label">Owner</label>
+			<select n:name="owner_id" class="form-select"></select>
+		</div>
+		<div class="col-md-6">
+			<label n:name="city" class="form-label">City</label>
+			<input n:name="city" class="form-control">
+		</div>
+		<div class="col-md-6">
+			<label n:name="country" class="form-label">Country</label>
+			<input n:name="country" class="form-control">
+		</div>
+		<div class="col-12">
+			<label n:name="description" class="form-label">Description</label>
+			<textarea n:name="description" class="form-control"></textarea>
+		</div>
+		<div class="col-12">
+			<button n:name="send" class="btn btn-primary px-4">Save Contact</button>
+			<a href="{link Contact:default}" class="btn btn-outline-secondary ms-2">Cancel</a>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,9 @@
+{layout '../@layout.latte'}
+{block pageTitle}Edit Task{/block}
+{block content}
+<div class="mb-4">
+	<a href="{link default}" class="text-muted small"><i class="bi bi-arrow-left"></i> Tasks</a>
+	<h4 class="fw-bold mb-0 mt-1">Edit Task: {$task->title}</h4>
+</div>
+<div class="row"><div class="col-lg-7"><div class="card"><div class="card-body">{control taskForm}</div></div></div></div>
+{/block}

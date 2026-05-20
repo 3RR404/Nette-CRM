@@ -1,0 +1,6 @@
+database:
+    dsn: 'mysql:host=mysql;dbname=nette_crm;charset=utf8mb4'
+    user: crm
+    password: secret
+    options:
+        lazy: true
