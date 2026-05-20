@@ -2,6 +2,7 @@
 /temp/cache/
 /temp/sessions/
 /log/*.log
+/log/*.md
 /log/*.html
 /app/config/local.neon
 !/app/config/local.neon.example
