@@ -12,8 +12,8 @@ final class RouterFactory
 	{
 		$router = new RouteList;
 
-		$router->addRoute('sign/<action>', 'Sign:Sign:default');
-		$router->addRoute('sign/<action>[/<id>]', 'Sign:Sign:default');
+		$router->addRoute('sign/<action>', 'Sign:default');
+		$router->addRoute('sign/<action>[/<id>]', 'Sign:default');
 
 		$router->addRoute('<presenter>/<action>[/<id>]', 'Dashboard:default');
 

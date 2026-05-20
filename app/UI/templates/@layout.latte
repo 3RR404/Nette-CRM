@@ -157,13 +157,13 @@
 	<div class="sidebar-footer">
 		<div class="d-flex align-items-center gap-2">
 			<div class="rounded-circle bg-primary d-flex align-items-center justify-content-center text-white" style="width:32px;height:32px;font-size:.8rem;">
-				{$user->getData()['first_name'][0]|upper}{$user->getData()['last_name'][0]|upper}
+				{$user->getIdentity()->first_name|upper}{$user->getIdentity()->last_name|upper}
 			</div>
 			<div class="flex-grow-1 overflow-hidden">
-				<div class="text-white small fw-semibold text-truncate">{$user->getData()['full_name']}</div>
+				<div class="text-white small fw-semibold text-truncate">{$user->getIdentity()->full_name}</div>
 				<div style="color:rgba(255,255,255,.5);font-size:.7rem">{$userRole}</div>
 			</div>
-			<a href="{link Sign:Sign:logout}" class="text-white-50" title="Logout"><i class="bi bi-box-arrow-right"></i></a>
+			<a href="{link Sign:logout}" class="text-white-50" title="Logout"><i class="bi bi-box-arrow-right"></i></a>
 		</div>
 	</div>
 </div>

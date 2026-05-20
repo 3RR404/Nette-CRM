@@ -221,9 +221,9 @@ CREATE TABLE `pipeline_stages` (
 
 -- Default admin user (password: admin123)
 INSERT INTO `users` (`first_name`, `last_name`, `email`, `password_hash`, `role`) VALUES
-('Admin', 'User', 'admin@crm.local', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin'),
-('John', 'Manager', 'manager@crm.local', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'manager'),
-('Jane', 'Agent', 'agent@crm.local', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'agent');
+('Admin', 'User', 'admin@crm.local', '$2y$12$Hu9DQnQFkQ43uJQDJ.pAPue5pbEg774NBHPr719tVB9A2JWwdSU5W', 'admin'),
+('John', 'Manager', 'manager@crm.local', '$2y$12$Hu9DQnQFkQ43uJQDJ.pAPue5pbEg774NBHPr719tVB9A2JWwdSU5W', 'manager'),
+('Jane', 'Agent', 'agent@crm.local', '$2y$12$Hu9DQnQFkQ43uJQDJ.pAPue5pbEg774NBHPr719tVB9A2JWwdSU5W', 'agent');
 
 -- Default pipeline stages
 INSERT INTO `pipeline_stages` (`name`, `slug`, `color`, `sort_order`, `is_won`, `is_lost`) VALUES

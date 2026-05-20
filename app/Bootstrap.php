@@ -15,7 +15,7 @@ class Bootstrap
 		$configurator = new Configurator;
 		$configurator->setTempDirectory($rootDir . '/temp');
 
-		$configurator->setDebugMode('secret@23.75.345.200');
+		$configurator->setDebugMode(true);
 		$configurator->enableTracy($rootDir . '/log');
 
 		$configurator->addConfig($rootDir . '/app/config/common.neon');
