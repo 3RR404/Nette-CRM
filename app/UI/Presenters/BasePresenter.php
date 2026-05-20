@@ -17,10 +17,10 @@ abstract class BasePresenter extends Presenter
 		parent::startup();
 
 		if (!$this->user->isLoggedIn()) {
-			$this->redirect('Sign:Sign:login');
+			$this->redirect('Sign:login');
 		}
 
-		$this->template->user = $this->user->getIdentity();
+		$this->template->user = $this->user;
 		$this->template->userRole = $this->user->getRoles()[0] ?? 'agent';
 	}
 

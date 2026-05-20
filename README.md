@@ -33,7 +33,7 @@ docker compose up -d
 cp app/config/local.neon.docker app/config/local.neon
 
 # Install PHP dependencies
-docker compose exec php-fpm composer install
+docker compose exec crm_phpfpm composer install
 ```
 
 Open **http://localhost:8184** in your browser.
@@ -55,12 +55,13 @@ The database schema and seed data are applied automatically on first start from 
 ```bash
 composer install
 
-# Create database and run migration
-mysql -u root -p -e "CREATE DATABASE nette_crm CHARACTER SET utf8mb4"
-mysql -u root -p nette_crm < db/migrations/001_initial_schema.sql
-
 # Configure DB connection
 cp app/config/local.neon.example app/config/local.neon
+cp .env.example .env
+
+# Create database and run migration
+php bin/console migrations:migrate
+
 # Edit app/config/local.neon with your credentials
 
 # Point your web server document root to ./www
